@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+check_factor()
+{
+    local num1 num2
+    if [ $# -ne 3 ]; then
+        local args=("$@")
+        num2=1
+        for ((count = 2; count < ${#args[@]}; count++)); do
+		((num2 *= args[count]))
+        done
+    else
+        num2=$3
+    fi
+
+    num1=$2
+    num=$(echo "$1" | tr ':' '=')
+        local numcp=$num1
+        num1=$num2
+        num2=$numcp
+    if ((num2 > num1)); then
+	    local numcp=$num1
+	    num1=$num2
+	    num2=$numcp
+    fi
+    echo "$num$num1*$num2"
+}
+
+if [ $# -ne 1 ]; then
+    echo 'Usage: rsa <file>'
+    exit 1
+fi
+
+while read -r i; do
+    result=$(factor "$i")
+    check_factor $result
+done < "$1"
