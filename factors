@@ -14,14 +14,11 @@ check_factor()
     fi
 
     num1=$2
-    num=$(echo "$1" | tr ':' '=')
-        local numcp=$num1
-        num1=$num2
-        num2=$numcp
+    num=$(tr ':' '=' <<< "$1")
     if ((num2 > num1)); then
-	    local numcp=$num1
+	    local temp=$num1
 	    num1=$num2
-	    num2=$numcp
+	    num2=$temp
     fi
     echo "$num$num1*$num2"
 }
